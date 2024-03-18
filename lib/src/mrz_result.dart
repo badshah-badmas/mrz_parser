@@ -15,20 +15,20 @@ class MRZResult {
     this.personalNumber2,
   });
 
-  final String documentType;
-  final String countryCode;
-  final String surnames;
-  final String givenNames;
-  final String documentNumber;
-  final String nationalityCountryCode;
-  final DateTime birthDate;
-  final Sex sex;
-  final DateTime expiryDate;
-  final String personalNumber;
+  final String? documentType;
+  final String? countryCode;
+  final String? surnames;
+  final String? givenNames;
+  final String? documentNumber;
+  final String? nationalityCountryCode;
+  final DateTime? birthDate;
+  final Sex? sex;
+  final DateTime? expiryDate;
+  final String? personalNumber;
   final String? personalNumber2;
 
   @override
-  bool operator ==(Object other) =>
+  bool operator ==(final Object other) =>
       identical(this, other) ||
       other is MRZResult &&
           runtimeType == other.runtimeType &&

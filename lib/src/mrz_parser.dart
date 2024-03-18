@@ -19,7 +19,7 @@ class MRZParser {
   /// Like [parse] except that this function returns `null` where a
   /// similar call to [parse] would throw a [MRZException]
   /// in case of invalid input or unsuccessful parsing
-  static MRZResult? tryParse(List<String?>? input) {
+  static MRZResult? tryParse(final List<String?>? input) {
     try {
       return parse(input);
     } on Exception {
@@ -34,33 +34,40 @@ class MRZParser {
   ///
   /// If [input] format is invalid or parsing was unsuccessful,
   /// an instance of [MRZException] is thrown
-  static MRZResult parse(List<String?>? input) {
+  ///
+  /// if [validate] is false, a [MRZResult] with
+  static MRZResult parse(final List<String?>? input,
+      {final bool validate = true}) {
     final polishedInput = _polishInput(input);
     if (polishedInput == null) {
       throw const InvalidMRZInputException();
     }
 
     if (_TD1MRZFormatParser.isValidInput(polishedInput)) {
-      return _TD1MRZFormatParser.parse(polishedInput);
+      return _TD1MRZFormatParser.parse(polishedInput, validate);
     }
     if (_TD2MRZFormatParser.isValidInput(polishedInput)) {
-      return _TD2MRZFormatParser.parse(polishedInput);
+      return _TD2MRZFormatParser.parse(polishedInput, validate);
     }
     if (_TD3MRZFormatParser.isValidInput(polishedInput)) {
-      return _TD3MRZFormatParser.parse(polishedInput);
+      return _TD3MRZFormatParser.parse(polishedInput, validate);
     }
 
     throw const InvalidMRZInputException();
   }
 
-  static List<String>? _polishInput(List<String?>? input) {
+  static List<String>? _polishInput(final List<String?>? input) {
     if (input == null) {
       return null;
     }
 
-    final polishedInput =
-        input.where((s) => s != null).map((s) => s!.toUpperCase()).toList();
+    final polishedInput = input
+        .where((final s) => s != null)
+        .map((final s) => s!.toUpperCase())
+        .toList();
 
-    return polishedInput.any((s) => !s.isValidMRZInput) ? null : polishedInput;
+    return polishedInput.any((final s) => !s.isValidMRZInput)
+        ? null
+        : polishedInput;
   }
 }
